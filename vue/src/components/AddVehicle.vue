@@ -4,24 +4,24 @@
         <label for="year">Year: </label>
         <select v-model="vehicle.year">
           <option
-            v-for="(option, index) in years.slice().sort()"
-            v-bind:key="index"
-            :value="option"
+            v-for="year in years"
+            v-bind:key="year.id"
+            :value="year"
           >
-            {{ option }}
+            {{ year }}
           </option>
         </select>
       </div>
       <div class="vehicleForm">
         <label for="make">Make: </label>
 
-        <select v-model="vehicle.make" v-show="this.makes != ''">
+        <select v-model="vehicle.make" v-show="this.vehicle.year != ''">
           <option
-            v-for="(option, index) in makes.slice().sort()"
-            v-bind:key="index"
-            :value="option"
+            v-for="make in makes.slice().sort()"
+            v-bind:key="make.id"
+            :value="make"
           >
-            {{ option }}
+            {{ make }}
           </option>
         </select>
       </div>
@@ -29,11 +29,11 @@
         <label for="model">Model: </label>
         <select v-model="vehicle.model" v-show="this.models != ''">
           <option
-            v-for="(option, index) in models.slice().sort((a, b) => (a.model > b.model) ? 1 : ((b.model > a.model) ? -1 : 0))"
-            v-bind:key="index"
-            :value="option.model"
+            v-for="car in models.slice().sort((a, b) => (a.Model_Name > b.Model_Name) ? 1 : ((b.Model_Name > a.Model_Name) ? -1 : 0))"
+            v-bind:key="car.id"
+            :value="car.Model_Name"
           >
-            {{ option.model }}
+            {{ car.Model_Name }}
           </option>
         </select>
       </div>
@@ -68,7 +68,70 @@ export default {
         year: "",
         color: "",
       },
-      makes: [],
+      makes: [
+        "Buick",
+        "MINI",
+        "Volvo",
+        "Ford",
+        "HUMMER",
+        "GMC",
+        "Subaru",
+        "Mitsubishi",
+        "Dodge",
+        "Nissan",
+        "Honda",
+        "Lincoln",
+        "Hyundai",
+        "BMW",
+        "Bentley",
+        "Lexus",
+        "Chevrolet",
+        "Jaguar",
+        "Mercedes-Benz",
+        "Volkswagen",
+        "Aston Martin",
+        "Land Rover",
+        "Pontiac",
+        "Cadillac",
+        "FIAT",
+        "Saab",
+        "Kia",
+        "Lamborghini",
+        "Audi",
+        "Jeep",
+        "MAZDA",
+        "Suzuki",
+        "Toyota",
+        "Acura",
+        "Saturn",
+        "Chrysler",
+        "Isuzu",
+        "Ferrari",
+        "Tesla",
+        "INFINITI",
+        "Oldsmobile",
+        "Ram",
+        "Eagle",
+        "Porsche",
+        "Mercury",
+        "Scion",
+        "Lotus",
+        "Plymouth",
+        "Freightliner",
+        "Rolls-Royce",
+        "SRT",
+        "Maybach",
+        "Alfa Romeo",
+        "Geo",
+        "smart",
+        "Daewoo",
+        "Maserati",
+        "Daihatsu",
+        "Genesis",
+        "McLaren",
+        "Fisker",
+        "Panoz"
+      ],
       models: [],
       years: [],
       colors: [
@@ -104,21 +167,21 @@ export default {
     },
   },
   watch: {
-    "vehicle.year": function () {
-      APIService.getVehicleMakes().then((response) => {
-        this.makes = response.data;
-      });
-    },
     "vehicle.make": function (){
         APIService.getVehicleModels(this.vehicle.year, this.vehicle.make).then((response) => {
-            this.models = response.data;
+            this.models = response.data.Results;
         })
     }
   },
   created() {
-    APIService.getVehicleYears().then((response) => {
-      this.years = response.data;
-    });
+    let currentYear = '2022'; 
+    let years = [];
+    let startYear = '1996';  
+    while ( startYear <= currentYear ) {
+        years.push(startYear++);
+    }   
+    this.years = years;
+
   },
 };
 </script>

@@ -16,6 +16,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @CrossOrigin
@@ -32,11 +33,7 @@ public class VehicleController {
         this.userDao = userDao;
     }
 
-    /**
-     * Returns the current logged-in user.
-     * @param username The principal username,.
-     * @return The current logged-in user.
-     */
+
     public User getLoggedInUser(String username)
     {
         return this.userDao.findByUsername(username);
@@ -62,38 +59,13 @@ public class VehicleController {
         vehicle.setVehicleId(id);
         return vehicle;
     }
-
-
-    @RequestMapping(path = "/years", method = RequestMethod.GET)
-    public String getVehicleYears() throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://car-data.p.rapidapi.com/cars/years"))
-                .header("X-RapidAPI-Key", "3ce156a0cbmsh3cdebac2f07584ap1f99dejsn462087aef6d1")
-                .header("X-RapidAPI-Host", "car-data.p.rapidapi.com")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
-    }
-
-    @RequestMapping(path = "/makes", method = RequestMethod.GET)
-    public String getVehicleMakes() throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://car-data.p.rapidapi.com/cars/makes"))
-                .header("X-RapidAPI-Key", "3ce156a0cbmsh3cdebac2f07584ap1f99dejsn462087aef6d1")
-                .header("X-RapidAPI-Host", "car-data.p.rapidapi.com")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
-    }
+    
 
     @RequestMapping(path = "/models/{year}/{make}", method = RequestMethod.GET)
     public String getVehicleModels(@PathVariable String year, @PathVariable String make) throws IOException, InterruptedException {
+        String uri = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/" + make + "/modelyear/" + year + "/vehicleType/car?format=json";
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(UriComponentsBuilder.fromUriString("https://car-data.p.rapidapi.com/cars").queryParam("year", year).queryParam("make", make).build().toUri())
-                .header("X-RapidAPI-Key", "3ce156a0cbmsh3cdebac2f07584ap1f99dejsn462087aef6d1")
-                .header("X-RapidAPI-Host", "car-data.p.rapidapi.com")
+                .uri(UriComponentsBuilder.fromUriString(uri).build().toUri())
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
