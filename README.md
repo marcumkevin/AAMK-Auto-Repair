@@ -6,7 +6,7 @@ Please feel free to view the project at:
 
 https://ornate-klepon-780be6.netlify.app/
 
-If you create a new account, it will be a customer account. If you login as 'admin'/'password', there is a link to create an employee account (or you can view the employee functionality as the admin). Different options for customer and employee interactions exist when viewing a work order's details, depending on whether the repair list has been created, whether the work order has been approved by the employee, and whether the work order has been mark paid and completed.
+If you create a new account, it will be a customer account. If you log in as 'admin'/'password', there is a link to create an employee account (or you can view the employee functionality as the admin). Different options for customer and employee interactions exist when viewing a work order's details, depending on whether the repair list has been created, whether the work order has been approved by the employee, and whether the work order has been mark paid and completed.
 
 ### Credits
 - Andrea Abaunza and Max Garnot, my partner programmers
